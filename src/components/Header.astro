@@ -1,0 +1,49 @@
+---
+import { site } from '../data/site';
+interface Props { current: string }
+const { current } = Astro.props;
+const nav = [
+  { href: '/services', label: 'Services' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+<header style="position:sticky;top:0;z-index:40;background:#211E25;border-bottom:4px solid #7A35B0">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px);height:84px;display:flex;align-items:center;gap:36px">
+    <a href="/" style="display:flex;align-items:center;gap:14px;text-decoration:none;color:#FFFFFF;margin-right:auto" aria-label="Door to Door Construction, home">
+      <span style="display:flex;gap:3px" aria-hidden="true"><span style="width:20px;height:40px;background:#7A35B0"></span><span style="width:20px;height:40px;background:#FFFFFF"></span></span>
+      <span style="display:flex;flex-direction:column;line-height:0.95">
+        <span style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:75%;font-size:28px;letter-spacing:0.01em;text-transform:uppercase">Door to Door</span>
+        <span style="font-size:12px;font-weight:800;letter-spacing:0.22em;color:#C8ABEB">CONSTRUCTION LTD.</span>
+      </span>
+    </a>
+    <nav class="desktop-only" aria-label="Main" style="display:flex;gap:30px;align-items:center">
+      {nav.map((n) => (
+        <a href={n.href} aria-current={current === n.href ? 'page' : undefined} style={`font-family:'Archivo',sans-serif;font-weight:800;font-stretch:85%;font-size:17px;letter-spacing:0.04em;text-transform:uppercase;color:${current === n.href ? '#B88CE6' : '#FFFFFF'};text-decoration:none`}>{n.label}</a>
+      ))}
+    </nav>
+    <a class="desktop-only" href={site.phoneTel} style="font-weight:800;font-size:18px;color:#FFFFFF;text-decoration:none;white-space:nowrap">{site.phone}</a>
+    <a class="desktop-only hover-purple" href="/contact" style="background:#7A35B0;color:#FFFFFF;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:85%;font-size:17px;text-transform:uppercase;letter-spacing:0.04em;padding:15px 22px;text-decoration:none;white-space:nowrap">Free Estimate</a>
+    <button id="menu-toggle" class="mobile-only" type="button" aria-expanded="false" aria-controls="mobile-menu" style="background:#7A35B0;border:none;color:#FFFFFF;font-family:'Archivo',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;padding:12px 16px;cursor:pointer">Menu</button>
+  </div>
+  <div id="mobile-menu" class="mobile-menu mobile-only" hidden style="background:#7A35B0;padding:12px 20px 32px;display:flex;flex-direction:column">
+    {nav.map((n) => (
+      <a href={n.href} aria-current={current === n.href ? 'page' : undefined} style="color:#FFFFFF;text-decoration:none;font-family:'Archivo',sans-serif;font-weight:900;font-stretch:75%;font-size:48px;text-transform:uppercase;line-height:1.05;padding:6px 0">{n.label}</a>
+    ))}
+    <a href={site.phoneTel} style="color:#FFFFFF;font-weight:800;font-size:22px;margin-top:20px;text-decoration:none">Call {site.phone}</a>
+  </div>
+</header>
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('menu-toggle');
+    var menu = document.getElementById('mobile-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.textContent = open ? 'Menu' : 'Close';
+      menu.hidden = open;
+    });
+  })();
+</script>

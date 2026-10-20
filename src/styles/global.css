@@ -1,0 +1,58 @@
+/* Base styles copied from the design prototype */
+html, body { margin: 0; padding: 0; background: #211E25; color: #FFFFFF; }
+* { box-sizing: border-box; }
+a { color: #D6BFF2; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+a:hover { color: #FFFFFF; }
+img { display: block; }
+input, select, textarea, button { font-family: inherit; }
+body { font-family: 'Figtree', system-ui, sans-serif; font-size: 18px; line-height: 1.6; min-height: 100vh; }
+
+/* Keyboard focus outline */
+:focus-visible { outline: 3px solid #D6BFF2; outline-offset: 2px; }
+
+/* Skip link for keyboard users */
+.skip-link { position: absolute; left: -9999px; top: 0; z-index: 100; background: #FFFFFF; color: #211E25; padding: 12px 18px; font-weight: 800; }
+.skip-link:focus { left: 12px; top: 12px; }
+
+/* ── Desktop vs mobile (the design switches at 1140px wide) ── */
+@media (max-width: 1139.98px) { .desktop-only { display: none !important; } }
+@media (min-width: 1140px) { .mobile-only { display: none !important; } }
+
+/* "Recent work" grid: 4 columns on desktop, 2 on mobile */
+.work-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1139.98px) { .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Mobile menu overlay */
+.mobile-menu[hidden] { display: none !important; }
+
+/* ── Hover states (from the prototype's hover styles) ── */
+.hover-purple:hover { background: #8E45C8 !important; color: #FFFFFF !important; }
+.hover-invert:hover { background: #211E25 !important; color: #FFFFFF !important; }
+.hover-black:hover { background: #000000 !important; color: #FFFFFF !important; }
+
+/* Image hover zoom inside cropped boxes */
+.zoom > img, .zoom-host .zoom > img { transition: transform 1.1s cubic-bezier(.2,.7,.2,1); }
+.zoom:hover > img, .zoom-host:hover .zoom > img { transform: scale(1.045); }
+
+/* Hero photo eases in on page load */
+@keyframes hero-settle { from { transform: scale(1.08); } to { transform: scale(1); } }
+.hero-img { animation: hero-settle 2.8s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Reveal on scroll (only when JavaScript is running) */
+html.js .reveal { opacity: 0; transform: translateY(28px); }
+html.js .reveal.is-visible {
+  opacity: 1; transform: none;
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms), transform 1s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms);
+}
+
+/* Form status message */
+.form-status { grid-column: 1 / -1; margin: 0; padding: 16px 18px; background: #2E2A33; border-left: 6px solid #B88CE6; font-weight: 600; }
+.form-status[hidden] { display: none; }
+form [type="submit"][disabled] { opacity: .7; cursor: progress; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-img { animation: none; }
+  .zoom > img, .zoom-host .zoom > img { transition: none; }
+  .zoom:hover > img, .zoom-host:hover .zoom > img { transform: none; }
+  html.js .reveal { opacity: 1; transform: none; }
+}

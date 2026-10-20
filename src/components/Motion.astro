@@ -1,0 +1,54 @@
+---
+// Scroll reveal + image hover zoom.
+// Content is only hidden once this script runs, so the page still
+// works if JavaScript is off. Turned off for "reduce motion" users.
+---
+<script is:inline>
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 1. Image hover zoom: photos inside a cropped (overflow hidden) box.
+    document.querySelectorAll('main img').forEach(function (img) {
+      var box = img.parentElement;
+      if (!box || getComputedStyle(box).overflow !== 'hidden') return;
+      box.classList.add('zoom');
+      var host = box.closest('a');
+      if (host) host.classList.add('zoom-host');
+    });
+
+    if (reduce) return;
+
+    // 2. Reveal on scroll.
+    var selector = 'main h1, main h2, main h3, main p, main blockquote, main form, main aside, main figure, footer > div';
+    var cands = new Set();
+    document.querySelectorAll(selector).forEach(function (el) { cands.add(el); });
+    // Cropped image boxes also reveal (but not the hero photo).
+    document.querySelectorAll('main img').forEach(function (img) {
+      if (img.classList.contains('hero-img')) return;
+      var p = img.parentElement;
+      if (p && p.tagName !== 'SECTION' && p.tagName !== 'MAIN') cands.add(p);
+    });
+    // Only animate the outermost element of a nested group.
+    var list = Array.from(cands).filter(function (el) {
+      for (var a = el.parentElement; a; a = a.parentElement) if (cands.has(a)) return false;
+      return true;
+    });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
+
+    list.forEach(function (el) {
+      var sibs = Array.from(el.parentElement.children).filter(function (c) { return list.indexOf(c) !== -1; });
+      var i = Math.max(0, sibs.indexOf(el));
+      el.style.setProperty('--reveal-delay', Math.min(i, 5) * 90 + 'ms');
+      el.classList.add('reveal');
+      io.observe(el);
+    });
+  })();
+</script>

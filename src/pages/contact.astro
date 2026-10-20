@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, FORMSPREE_ID } from '../data/site';
+
+const field = 'font-size:18px;padding:16px;border:2px solid #4A4451;background:#2E2A33;color:#FFFFFF';
+const label = 'display:flex;flex-direction:column;gap:8px;font-weight:700';
+---
+<Base
+  title="Book a Free Estimate | Door to Door Construction, Surrey"
+  description="Tell Door to Door Construction what you’re planning or what needs fixing. Call 604-347-8304 or send a request and we’ll call back to set up a time."
+  showCta={false}
+>
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))">
+    <div style="padding:clamp(48px,6vw,96px) clamp(20px,4vw,72px) clamp(64px,8vw,112px) max(clamp(20px,4vw,56px),calc((100vw - 1440px)/2 + 56px))">
+      <h1 style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:72%;font-size:clamp(56px,7vw,120px);line-height:0.84;text-transform:uppercase;margin:0 0 20px">Book a free estimate</h1>
+      <p style="margin:0 0 36px;font-size:20px;color:#DCD7E0;max-width:30em">Tell us what you’re planning or what needs fixing. We’ll call back to set up a time to see it.</p>
+
+      <form id="quote-form" data-formspree={FORMSPREE_ID} action={FORMSPREE_ID ? `https://formspree.io/f/${FORMSPREE_ID}` : undefined} method="POST" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:18px">
+        <label style={label}>Name<input required name="name" autocomplete="name" style={field}></label>
+        <label style={label}>Phone<input required type="tel" name="phone" autocomplete="tel" style={field}></label>
+        <label style={label}>Email<input type="email" name="email" autocomplete="email" style={field}></label>
+        <label style={label}>Type of job
+          <select name="need" style={field}><option>Kitchen or bathroom</option><option>Basement</option><option>Addition or new build</option><option>Deck, patio or siding</option><option>Roofing or gutters</option><option>Repair</option><option>Commercial</option><option>Other</option></select></label>
+        <label style={label}>How soon?
+          <select name="when" style={field}><option>It’s urgent</option><option>Within a month</option><option>In the next few months</option><option>Just planning</option></select></label>
+        <label style={label}>Postal code<input name="postal" placeholder="V3R" autocomplete="postal-code" style={field}></label>
+        <label style={`grid-column:1/-1;${label}`}>Describe the job
+          <textarea name="desc" rows="5" placeholder="1980s kitchen. Want to open the wall to the dining room and add a quartz island." style={`${field};resize:vertical;line-height:1.5`}></textarea></label>
+        <!-- Hidden field to catch spam bots (Formspree ignores submissions that fill it in) -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
+        <p id="form-status" class="form-status" role="alert" hidden></p>
+        <div style="grid-column:1/-1"><button type="submit" class="hover-purple" style="background:#7A35B0;color:#FFFFFF;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:85%;font-size:19px;text-transform:uppercase;padding:20px 36px;border:none;cursor:pointer">Send request</button></div>
+      </form>
+
+      <div id="form-thanks" hidden tabindex="-1" style="background:#7A35B0;padding:clamp(32px,4vw,56px);flex-direction:column;gap:14px">
+        <h2 style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:75%;font-size:52px;line-height:0.9;text-transform:uppercase;margin:0">Got it.</h2>
+        <p style="margin:0;font-weight:500">We’ll call you shortly. If it’s urgent, call <a href={site.phoneTel} style="color:#FFFFFF;font-weight:800">{site.phone}</a>.</p>
+        <div><button id="form-reset" type="button" class="hover-black" style="margin-top:8px;background:#211E25;border:none;color:#FFFFFF;font-weight:800;font-size:16px;padding:13px 20px;cursor:pointer">Send another</button></div>
+      </div>
+    </div>
+    <aside style="background:#7A35B0;padding:clamp(48px,6vw,96px) clamp(20px,4vw,72px);display:flex;flex-direction:column;gap:28px">
+      <div><span style="font-weight:800;font-size:15px;letter-spacing:0.18em">CALL US</span><a href={site.phoneTel} style="display:block;font-family:'Archivo',sans-serif;font-weight:900;font-stretch:75%;font-size:clamp(52px,5.4vw,88px);line-height:1;color:#FFFFFF;text-decoration:none">{site.phone}</a></div>
+      <div style="font-weight:500"><strong style="display:block">Email</strong><a href={`mailto:${site.email}`} style="color:#FFFFFF">{site.email}</a></div>
+      <div style="font-weight:500"><strong style="display:block">Office</strong>{site.address.street}<br>{site.address.city}, {site.address.region} {site.address.postalCode}</div>
+      <div style="font-weight:500"><strong style="display:block">Residential and commercial</strong>Surrey and the Lower Mainland</div>
+    </aside>
+  </section>
+</Base>
+
+<style is:global>
+  #form-thanks:not([hidden]) { display: flex; }
+</style>
+
+<script is:inline define:vars={{ phone: site.phone }}>
+  (function () {
+    var form = document.getElementById('quote-form');
+    var status = document.getElementById('form-status');
+    var thanks = document.getElementById('form-thanks');
+    var reset = document.getElementById('form-reset');
+    if (!form) return;
+    var id = form.getAttribute('data-formspree');
+    var callMsg = 'Sorry, your request could not be sent online. Please call us at ' + phone + '.';
+
+    function showError(msg) {
+      status.textContent = msg;
+      status.hidden = false;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      status.hidden = true;
+      if (!id) {
+        showError('Our online form isn’t connected yet. Please call us at ' + phone + ' and we’ll set up a time.');
+        return;
+      }
+      var btn = form.querySelector('[type="submit"]');
+      btn.disabled = true;
+      fetch('https://formspree.io/f/' + id, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          form.reset();
+          form.hidden = true;
+          thanks.hidden = false;
+          window.scrollTo(0, 0);
+          thanks.focus({ preventScroll: true });
+        })
+        .catch(function () { showError(callMsg); })
+        .finally(function () { btn.disabled = false; });
+    });
+
+    reset.addEventListener('click', function () {
+      thanks.hidden = true;
+      form.hidden = false;
+    });
+  })();
+</script>

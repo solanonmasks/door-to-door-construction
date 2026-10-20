@@ -1,0 +1,13 @@
+---
+import { site } from '../data/site';
+---
+<footer style="background:#17151A;color:#D2CDD7">
+  <div style="max-width:1440px;margin:0 auto;padding:56px clamp(20px,4vw,56px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:32px 56px;font-size:16px">
+    <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:75%;font-size:32px;text-transform:uppercase;color:#FFFFFF;line-height:1">Door to Door</span><span style="font-weight:800;font-size:12px;letter-spacing:0.22em;color:#C8ABEB">CONSTRUCTION LTD.</span></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><a href={site.phoneTel} style="color:#FFFFFF;font-weight:800;text-decoration:none">{site.phone}</a><a href={`mailto:${site.email}`} style="color:#D2CDD7">{site.email}</a></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span>{site.address.street}</span><span>{site.address.city}, {site.address.region} {site.address.postalCode}</span></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><a href="/services" style="color:#D2CDD7">Services</a><a href="/projects" style="color:#D2CDD7">Projects</a><a href="/about" style="color:#D2CDD7">About</a></div>
+  </div>
+  <div style="max-width:1440px;margin:0 auto;padding:20px clamp(20px,4vw,56px) 30px;font-size:14px;color:#9C96A3">© {new Date().getFullYear()} {site.legalName}</div>
+  <div class="mobile-only" style="height:68px" aria-hidden="true"></div>
+</footer>

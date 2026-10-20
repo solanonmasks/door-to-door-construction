@@ -1,0 +1,12 @@
+---
+import { site } from '../data/site';
+---
+<section style="background:#211E25;border-top:1px solid #3A3540">
+  <div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,120px) clamp(20px,4vw,56px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px 64px">
+    <h2 style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:72%;font-size:clamp(52px,7vw,128px);line-height:0.84;text-transform:uppercase;margin:0;max-width:10em">Got a project? <span style="color:#B88CE6">Get a straight estimate.</span></h2>
+    <div style="display:flex;flex-wrap:wrap;gap:10px">
+      <a href="/contact" class="hover-purple" style="background:#7A35B0;color:#FFFFFF;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:85%;font-size:19px;text-transform:uppercase;padding:20px 30px;text-decoration:none;white-space:nowrap">Book a Free Estimate</a>
+      <a href={site.phoneTel} style="background:#FFFFFF;color:#211E25;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:85%;font-size:19px;text-transform:uppercase;padding:20px 30px;text-decoration:none;white-space:nowrap">{site.phone}</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { img } from '../data/images';
+---
+<Base
+  title="About | Door to Door Construction, Surrey"
+  description="Door to Door Construction is a Surrey general contractor for homes and commercial spaces, with 30+ years in the trade and in-house carpentry, framing and concrete crews."
+  ogImage="/images/2018-10.jpg"
+>
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))">
+    <div style="padding:clamp(48px,6vw,96px) clamp(20px,4vw,72px) clamp(48px,6vw,96px) max(clamp(20px,4vw,56px),calc((100vw - 1440px)/2 + 56px));display:flex;flex-direction:column;gap:22px;justify-content:center">
+      <h1 style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:72%;font-size:clamp(56px,7vw,124px);line-height:0.84;text-transform:uppercase;margin:0">30 years of building. <span style="color:#B88CE6">We still pick up.</span></h1>
+      <p style="margin:0;font-size:20px;color:#ECE8F0">Door to Door Construction is a Surrey general contractor for homes and commercial spaces. Over 30 years we’ve learned what goes wrong on a job site, and built our process so it doesn’t.</p>
+      <p style="margin:0;color:#DCD7E0">Our in-house crews handle carpentry, framing and concrete. For everything else we work with the same architects, engineers, plumbers, electricians and window companies job after job.</p>
+    </div>
+    <div style="position:relative;min-height:520px"><img src={img('project10')} alt="Door to Door project" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+  </section>
+  <section style="background:#7A35B0">
+    <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:36px 56px">
+      <div style="border-top:4px solid #211E25;padding-top:18px"><h3 style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:75%;font-size:36px;text-transform:uppercase;line-height:0.95;margin:0 0 10px">Accurate estimates</h3><p style="margin:0;font-weight:500">We draft the quote with you. Our clients trust the work will stick to the budget.</p></div>
+      <div style="border-top:4px solid #211E25;padding-top:18px"><h3 style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:75%;font-size:36px;text-transform:uppercase;line-height:0.95;margin:0 0 10px">Constant updates</h3><p style="margin:0;font-weight:500">Regular reports to you, and every trade working from the same plan.</p></div>
+      <div style="border-top:4px solid #211E25;padding-top:18px"><h3 style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:75%;font-size:36px;text-transform:uppercase;line-height:0.95;margin:0 0 10px">Built to last</h3><p style="margin:0;font-weight:500">Quality, durability and reliability before speed. Work we’re proud to have our name on.</p></div>
+    </div>
+  </section>
+</Base>
